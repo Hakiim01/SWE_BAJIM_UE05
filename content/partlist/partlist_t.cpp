@@ -2,7 +2,7 @@
 // Created by Hakim Bajim on 28.12.22.
 //
 
-#include <map>
+#include <iomanip>
 #include "partlist_t.h"
 
 namespace partslists {
@@ -37,26 +37,38 @@ namespace partslists {
 namespace formatter {
 
     void hierarchy_formatter::print_parts(partslists::part_t &part, std::ostream &out) {
-        out << part.get_name();
+        print_parts_rec(part, out, 1);
+    }
+
+    void hierarchy_formatter::print_parts_rec(partslists::part_t &part, std::ostream &out, int indent) {
+        auto *comp = dynamic_cast<partslists::composite_part_t *>(&part);
+        out << std::setw(indent*4) << comp->get_name() << "\n";
+        if(comp->get_parts().size() > 0) {
+            for(auto &i : comp->get_parts()) {
+                print_parts_rec(*i, out, ++indent);
+            }
+        }
     }
 
     void set_formatter::print_parts(partslists::part_t &part, std::ostream &out) {
         std::map<std::string, int> m;
         fill_map(part, out, m);
         out << part.get_name() << "\n\t";
-        for(auto &i : m) {
+        for(const auto &i : m) {
             out << i.second << " " << i.first << "\n";
         }
     }
 
     void set_formatter::fill_map(partslists::part_t &part, std::ostream &out, std::map<std::string, int> &m) {
-        auto *comp = dynamic_cast<partslists::composite_part_t *>(&part);
-        if(comp->get_parts().size() > 0) {
-            for(auto &i : comp->get_parts()) {
-                fill_map(*i, out, m);
+        auto * comp = dynamic_cast<partslists::composite_part_t*>(&part);
+        if(comp) {
+            if(comp->get_parts().size() > 0) {
+                for(auto &i : comp->get_parts()) {
+                    fill_map(*i, out, m);
+                }
             }
-        } else {
-            m.contains(comp->get_name()) ? ++m[comp->get_name()] : m[comp->get_name()] = 1;
+        }else {
+            m.count(comp->get_name())? m[comp->get_name()]++ : m[comp->get_name()] = 1;
         }
     }
 
