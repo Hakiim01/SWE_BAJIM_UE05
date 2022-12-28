@@ -11,15 +11,15 @@
 namespace airline {
 
     class airline_t {
-        
+
 
     };
-    
+
     class flight_t : protected airline_t {
-        
-        
+
+
     };
-    
+
     class person_t {
     private:
         std::string firstname = "No firstname";
