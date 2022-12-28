@@ -12,7 +12,7 @@
 namespace airline {
 
     class airline_t {
-    private:
+    protected:
         std::string _start = "No _start";
         std::string _destination = "No _destination";
         std::vector<std::string> _stopovers = {};
@@ -46,8 +46,43 @@ namespace airline {
 
     };
 
-    class flight_t : protected airline_t {
+    class flight_t : private airline_t {
+    private:
+        size_t _flightnumber = 0;
+        std::string _company = "";
+        int _takeofftime = 0000;
+        int _arrivingtime = 0000;
+        int _flightduration = _arrivingtime - _takeofftime;
+        friend inline std::ostream &operator<<(std::ostream &lhs, const flight_t &rhs);
+    public:
+        //constructor
+        flight_t() = default;
 
+        [[maybe_unused]] flight_t(const size_t flightnumber, const std::string &company, const int takeofftime, const int arrivingtime, const int flightduration);
+
+        ~flight_t() = default;
+
+        //gets
+        [[nodiscard]] size_t get_flightnumber() const;
+
+        [[nodiscard]] std::string get_company() const;
+
+        [[nodiscard]] int get_takeofftime() const;
+
+        [[nodiscard]] int get_arrivingtime() const;
+
+        [[nodiscard]] int get_flightduration() const;
+
+        //sets
+        void set_flightnumber(const size_t flightnumber);
+
+        void set_company(const std::string &company);
+
+        void set_takeofftime(const int takeofftime);
+
+        void set_arrivingtime(const int arrivingtime);
+
+        //no need to set duration, because that will be calculated
 
     };
 
