@@ -73,4 +73,40 @@ namespace airline {
     }
 
 
+    airline_t::airline_t(const airline_t &airline) {
+        this->start = airline.start;
+        this->destination = airline.destination;
+        this->stopovers = airline.stopovers;
+    }
+
+    airline_t::airline_t(const std::string &start, const std::string &destination,
+                         const std::vector<std::string> &stopovers) {
+        this->stopovers = stopovers;
+        this->start = start;
+        this->destination = destination;
+    }
+
+    std::string airline_t::get_start() const {
+        return this->start;
+    }
+
+    std::string airline_t::get_destination() const {
+        return this->destination;
+    }
+
+    std::vector<std::string> airline_t::get_stopovers() const {
+        return this->stopovers;
+    }
+
+    void airline_t::set_start(const std::string &start) {
+        this->start = start;
+    }
+
+    void airline_t::set_destination(const std::string &destination) {
+        this->destination = destination;
+    }
+
+    void airline_t::set_stopovers(const std::vector<std::string> stopovers) {
+        this->stopovers = stopovers;
+    }
 } // airline

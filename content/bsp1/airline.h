@@ -11,6 +11,34 @@
 namespace airline {
 
     class airline_t {
+    private:
+        std::string start = "No start";
+        std::string destination = "No destination";
+        std::vector<std::string> stopovers = {};
+
+    public:
+        //constructors
+        airline_t() = default;
+
+        airline_t(const airline_t &airline);
+
+        airline_t(const std::string &start, const std::string &destination, const std::vector<std::string> &stopovers);
+
+        ~airline_t() = default;
+
+        //gets
+        std::string get_start() const;
+
+        std::string get_destination() const;
+
+        std::vector<std::string> get_stopovers() const;
+
+        //sets
+        void set_start(const std::string &start);
+
+        void set_destination(const std::string &destination);
+
+        void set_stopovers(const std::vector<std::string> stopovers);
 
 
     };
@@ -29,6 +57,7 @@ namespace airline {
         std::string address = "No address";
         size_t creditcard = 0000000000000000;
     public:
+        //constructors
         person_t() = default;
 
         person_t(const std::string &firstname, const std::string &name, const char gender,
