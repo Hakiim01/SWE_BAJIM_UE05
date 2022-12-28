@@ -37,16 +37,18 @@ namespace partslists {
 namespace formatter {
 
     void hierarchy_formatter::print_parts(partslists::part_t &part, std::ostream &out) {
-        print_parts_rec(part, out, 1);
+        print_parts_rec(part, out, 0);
     }
 
     void hierarchy_formatter::print_parts_rec(partslists::part_t &part, std::ostream &out, int indent) {
         auto *comp = dynamic_cast<partslists::composite_part_t *>(&part);
-        out << std::setw(indent*4) << part.get_name() << "\n";
+        for(int i(0); i < indent; ++i) {
+            out << "\t";
+        }
+        out << part.get_name() << "\n";
         if(comp) {
             for(auto &i : comp->get_parts()) {
-                print_parts_rec(*i, out, ++indent);
-                --indent;
+                print_parts_rec(*i, out, 1+indent);
             }
         }
     }
