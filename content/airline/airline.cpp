@@ -97,7 +97,6 @@ namespace airline {
         return this->flights;
     }
 
-
     //airline_t
     airline_t::airline_t(const airline_t &airline) {
         set_destination(airline._destination);
