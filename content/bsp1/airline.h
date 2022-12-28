@@ -5,6 +5,7 @@
 #ifndef SWE_BAJIM_UE05_AIRLINE_H
 #define SWE_BAJIM_UE05_AIRLINE_H
 
+#include <ostream>
 #include <vector>
 #include <string>
 
@@ -12,9 +13,11 @@ namespace airline {
 
     class airline_t {
     private:
-        std::string start = "No start";
-        std::string destination = "No destination";
-        std::vector<std::string> stopovers = {};
+        std::string _start = "No _start";
+        std::string _destination = "No _destination";
+        std::vector<std::string> _stopovers = {};
+
+        friend inline std::ostream &operator<<(std::ostream &lhs, const airline_t &rhs);
 
     public:
         //constructors
@@ -27,18 +30,18 @@ namespace airline {
         ~airline_t() = default;
 
         //gets
-        std::string get_start() const;
+        [[nodiscard]] std::string get_start() const;
 
-        std::string get_destination() const;
+        [[nodiscard]] std::string get_destination() const;
 
-        std::vector<std::string> get_stopovers() const;
+        [[nodiscard]] std::vector<std::string> get_stopovers() const;
 
         //sets
         void set_start(const std::string &start);
 
         void set_destination(const std::string &destination);
 
-        void set_stopovers(const std::vector<std::string> stopovers);
+        void set_stopovers(const std::vector<std::string> &stopovers);
 
 
     };
@@ -50,12 +53,15 @@ namespace airline {
 
     class person_t {
     private:
-        std::string firstname = "No firstname";
-        std::string name = "No name";
-        char gender = 'N';
-        size_t age = 0;
-        std::string address = "No address";
-        size_t creditcard = 0000000000000000;
+        std::string _firstname = "No _firstname";
+        std::string _name = "No _name";
+        char _gender = 'N';
+        size_t _age = 0;
+        std::string _address = "No _address";
+        size_t _creditcard = 0000000000000000;
+
+        friend inline std::ostream &operator<<(std::ostream &lhs, const person_t &rhs);
+
     public:
         //constructors
         person_t() = default;
@@ -68,31 +74,32 @@ namespace airline {
         ~person_t() = default;
 
         //gets
-        std::string get_firstname() const;
+        [[nodiscard]] std::string get_firstname() const;
 
-        std::string get_name() const;
+        [[nodiscard]] std::string get_name() const;
 
-        char get_gender() const;
+        [[nodiscard]] char get_gender() const;
 
-        size_t get_age() const;
+        [[nodiscard]] size_t get_age() const;
 
-        std::string get_address() const;
+        [[nodiscard]] std::string get_address() const;
 
-        size_t get_creditcard() const;
+        [[nodiscard]] size_t get_creditcard() const;
 
         //sets
         void set_firstname(const std::string &firstname);
 
-        void set_name(const std::string name);
+        void set_name(const std::string &name);
 
-        void set_gender(const char gender);
+        void set_gender(char gender);
 
         void set_age(const size_t age);
 
-        void set_address(const std::string address);
+        void set_address(const std::string &address);
 
         void set_creditcard(const size_t creditcard);
     };
+
 
 } // airline
 
