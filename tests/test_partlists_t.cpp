@@ -7,7 +7,7 @@
 void test_partlists_t() {
     partslists::part_t leg("leg");
     partslists::part_t sittingspace("sittingspace");
-    partslists::composite_part_t stool("stool");
+    partslists::composite_part_t stool("chair");
     stool.add_part(leg);
     stool.add_part(leg);
     stool.add_part(leg);
@@ -15,4 +15,6 @@ void test_partlists_t() {
     stool.add_part(sittingspace);
     formatter::set_formatter s;
     s.print_parts(stool);
+    formatter::hierarchy_formatter h;
+    h.print_parts(stool);
 }

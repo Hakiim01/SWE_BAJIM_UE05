@@ -42,10 +42,11 @@ namespace formatter {
 
     void hierarchy_formatter::print_parts_rec(partslists::part_t &part, std::ostream &out, int indent) {
         auto *comp = dynamic_cast<partslists::composite_part_t *>(&part);
-        out << std::setw(indent*4) << comp->get_name() << "\n";
-        if(comp->get_parts().size() > 0) {
+        out << std::setw(indent*4) << part.get_name() << "\n";
+        if(comp) {
             for(auto &i : comp->get_parts()) {
                 print_parts_rec(*i, out, ++indent);
+                --indent;
             }
         }
     }
@@ -55,20 +56,21 @@ namespace formatter {
         fill_map(part, out, m);
         out << part.get_name() << "\n\t";
         for(const auto &i : m) {
-            out << i.second << " " << i.first << "\n";
+            out << i.second << " " << i.first << "\n\t";
         }
+        out << "\n";
     }
 
     void set_formatter::fill_map(partslists::part_t &part, std::ostream &out, std::map<std::string, int> &m) {
         auto * comp = dynamic_cast<partslists::composite_part_t*>(&part);
         if(comp) {
-            if(comp->get_parts().size() > 0) {
+            if(!comp->get_parts().empty()) {
                 for(auto &i : comp->get_parts()) {
                     fill_map(*i, out, m);
                 }
             }
-        }else {
-            m.count(comp->get_name())? m[comp->get_name()]++ : m[comp->get_name()] = 1;
+        } else {
+            m.count(part.get_name())? m[part.get_name()]++ : m[part.get_name()] = 1;
         }
     }
 
