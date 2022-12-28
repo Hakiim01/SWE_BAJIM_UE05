@@ -43,8 +43,10 @@ namespace formatter {
     void set_formatter::print_parts(partslists::part_t &part, std::ostream &out) {
         std::map<std::string, int> m;
         fill_map(part, out, m);
-        auto *comp = dynamic_cast<partslists::composite_part_t *>(&part);
-        out << comp->get_parts().size() << " " << comp->get_name();
+        out << part.get_name() << "\n\t";
+        for(auto &i : m) {
+            out << i.second << " " << i.first << "\n";
+        }
     }
 
     void set_formatter::fill_map(partslists::part_t &part, std::ostream &out, std::map<std::string, int> &m) {
