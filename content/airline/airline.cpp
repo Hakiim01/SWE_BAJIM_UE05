@@ -7,13 +7,17 @@
 namespace airline {
     //person_t
     person_t::person_t(const std::string &firstname, const std::string &name, const char gender, const size_t age,
-                       const std::string &address, const size_t creditcard) {
+                       const std::string &address, const size_t creditcard, const std::vector<flight_t *> &flights) {
         set_name(name);
         set_firstname(firstname);
         set_address(address);
         set_age(age);
         set_creditcard(creditcard);
         set_gender(gender);
+        for(auto &i: flights) {
+            add_flights(*i);
+        }
+
     }
 
     person_t::person_t(const person_t &person) {
@@ -23,6 +27,9 @@ namespace airline {
         set_age(person._age);
         set_creditcard(person._creditcard);
         set_gender(person._gender);
+        for(auto &i: person.get_flights()) {
+            add_flights(*i);
+        }
     }
 
     std::string person_t::get_firstname() const {
@@ -73,11 +80,23 @@ namespace airline {
         this->_creditcard = creditcard;
     }
 
-    inline std::ostream &operator<<(std::ostream &lhs, const person_t &rhs) {
+    std::ostream &operator<<(std::ostream &lhs, const person_t &rhs) {
         lhs << rhs.get_firstname() << " " << rhs.get_name() << " (" << rhs.get_age() << rhs.get_gender() << ") "
-            << rhs.get_address() << " " << rhs.get_creditcard();
+            << rhs.get_address() << " " << rhs.get_creditcard() << " ";
+        for(auto &i : rhs.get_flights()) {
+            lhs << *i << " ";
+        }
         return lhs;
     }
+
+    void person_t::add_flights(flight_t &flight) {
+        this->flights.push_back(&flight);
+    }
+
+    std::vector<flight_t *> person_t::get_flights() const {
+        return this->flights;
+    }
+
 
     //airline_t
     airline_t::airline_t(const airline_t &airline) {
@@ -117,22 +136,27 @@ namespace airline {
         this->_stopovers = stopovers;
     }
 
-    inline std::ostream &operator<<(std::ostream &lhs, const airline_t &rhs) {
+    std::ostream &operator<<(std::ostream &lhs, const airline_t &rhs) {
         lhs << "Flight<" << rhs.get_start() << " -> " << rhs.get_destination() << ": ";
         std::string temp;
         for (const auto &i: rhs.get_stopovers()) {
             temp += i + ", ";
         }
-        lhs << temp.substr(0, temp.size() - 2);
+        lhs << temp.substr(0, temp.size() - 2) << ">";
         return lhs;
     }
 
-    [[maybe_unused]] flight_t::flight_t(const size_t flightnumber, const std::string &company, const int takeofftime,
-                                        const int arrivingtime) {
+    [[maybe_unused]] flight_t::flight_t(const size_t flightnumber, const std::string &start,
+                                        const std::string &destination, const std::string &company,
+                                        const int takeofftime, const int arrivingtime, const
+                                        std::vector<std::string> stopovers) {
         set_flightnumber(flightnumber);
         set_arrivingtime(arrivingtime);
         set_company(company);
         set_takeofftime(takeofftime);
+        set_start(start);
+        set_destination(destination);
+        set_stopovers(stopovers);
         this->_flightduration = arrivingtime - takeofftime;
 
     }
@@ -175,7 +199,7 @@ namespace airline {
 
     std::ostream &operator<<(std::ostream &lhs, const flight_t &rhs) {
         lhs << "Flight: " << rhs.get_flightnumber() << " from " << rhs.get_start() << " at " << rhs.get_takeofftime()
-        << " to " << rhs.get_destination() << " at " << rhs.get_arrivingtime() << " over: ";
+            << " to " << rhs.get_destination() << " at " << rhs.get_arrivingtime() << " over: ";
         std::string temp;
         for (const auto &i: rhs.get_stopovers()) {
             temp += i + ", ";
@@ -183,6 +207,18 @@ namespace airline {
         lhs << temp.substr(0, temp.size() - 2);
         lhs << " Duration: " << rhs.get_flightduration() << " Flightcompany: " << rhs.get_company();
         return lhs;
+    }
+
+    flight_t::flight_t(const airline_t &airline, const size_t flightnumber, const std::string &company,
+                       const int takeofftime, const int arrivingtime) {
+        set_flightnumber(flightnumber);
+        set_arrivingtime(arrivingtime);
+        set_company(company);
+        set_takeofftime(takeofftime);
+        set_start(airline.get_start());
+        set_destination(airline.get_destination());
+        set_stopovers(airline.get_stopovers());
+        this->_flightduration = arrivingtime - takeofftime;
     }
 
 

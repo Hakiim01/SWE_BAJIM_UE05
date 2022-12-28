@@ -13,11 +13,11 @@ namespace airline {
 
     class airline_t {
     protected:
-        std::string _start = "No _start";
-        std::string _destination = "No _destination";
+        std::string _start = "No start";
+        std::string _destination = "No destination";
         std::vector<std::string> _stopovers = {};
 
-        friend inline std::ostream &operator<<(std::ostream &lhs, const airline_t &rhs);
+        friend std::ostream &operator<<(std::ostream &lhs, const airline_t &rhs);
 
     public:
         //constructors
@@ -25,7 +25,7 @@ namespace airline {
 
         airline_t(const airline_t &airline);
 
-        airline_t(const std::string &start, const std::string &destination, const std::vector<std::string> &stopovers);
+        airline_t(const std::string &start, const std::string &destination, const std::vector<std::string> &stopovers = {});
 
         ~airline_t() = default;
 
@@ -53,12 +53,14 @@ namespace airline {
         int _takeofftime = 0000;
         int _arrivingtime = 0000;
         int _flightduration = _arrivingtime - _takeofftime;
-        friend inline std::ostream &operator<<(std::ostream &lhs, const flight_t &rhs);
+        friend std::ostream &operator<<(std::ostream &lhs, const flight_t &rhs);
     public:
         //constructor
         flight_t() = default;
 
-        [[maybe_unused]] flight_t(const size_t flightnumber, const std::string &company, const int takeofftime, const int arrivingtime);
+        flight_t(const airline_t &airline, const size_t flightnumber, const std::string &company, const int takeofftime, const int arrivingtimeconst);
+
+        [[maybe_unused]] flight_t(const size_t flightnumber, const std::string &start, const std::string &destination, const std::string &company, const int takeofftime, const int arrivingtimeconst, std::vector<std::string> stopovers = {});
 
         ~flight_t() = default;
 
@@ -94,15 +96,16 @@ namespace airline {
         size_t _age = 0;
         std::string _address = "No _address";
         size_t _creditcard = 0000000000000000;
+        std::vector<flight_t*> flights = {};
 
-        friend inline std::ostream &operator<<(std::ostream &lhs, const person_t &rhs);
+        friend std::ostream &operator<<(std::ostream &lhs, const person_t &rhs);
 
     public:
         //constructors
         person_t() = default;
 
         person_t(const std::string &firstname, const std::string &name, const char gender,
-                 const size_t age, const std::string &address, const size_t creditcard);
+                 const size_t age, const std::string &address, const size_t creditcard, const std::vector<flight_t*> &flights);
 
         person_t(const person_t &person);
 
@@ -121,6 +124,8 @@ namespace airline {
 
         [[nodiscard]] size_t get_creditcard() const;
 
+        [[nodiscard]] std::vector<flight_t*> get_flights() const;
+
         //sets
         void set_firstname(const std::string &firstname);
 
@@ -133,6 +138,8 @@ namespace airline {
         void set_address(const std::string &address);
 
         void set_creditcard(const size_t creditcard);
+
+        void add_flights(flight_t &flight);
     };
 
 
