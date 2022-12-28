@@ -1,6 +1,8 @@
 #include <iostream>
 
+void test_airline_t();
+
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    test_airline_t();
     return 0;
 }

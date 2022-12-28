@@ -3,4 +3,4 @@ project(SWE_BAJIM_UE05)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(SWE_BAJIM_UE05 main.cpp content/bsp1/airline.cpp content/bsp1/airline.h)
+add_executable(SWE_BAJIM_UE05 main.cpp content/airline/airline.cpp content/airline/airline.h tests/test_airline_t.cpp tests/test_partlists_t.cpp content/partlist/partlist_t.cpp content/partlist/partlist_t.h)
