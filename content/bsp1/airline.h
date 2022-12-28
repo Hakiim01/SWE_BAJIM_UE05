@@ -58,7 +58,7 @@ namespace airline {
         //constructor
         flight_t() = default;
 
-        [[maybe_unused]] flight_t(const size_t flightnumber, const std::string &company, const int takeofftime, const int arrivingtime, const int flightduration);
+        [[maybe_unused]] flight_t(const size_t flightnumber, const std::string &company, const int takeofftime, const int arrivingtime);
 
         ~flight_t() = default;
 

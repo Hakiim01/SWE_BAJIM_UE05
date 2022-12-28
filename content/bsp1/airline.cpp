@@ -128,7 +128,7 @@ namespace airline {
     }
 
     [[maybe_unused]] flight_t::flight_t(const size_t flightnumber, const std::string &company, const int takeofftime,
-                                        const int arrivingtime, const int flightduration) {
+                                        const int arrivingtime) {
         set_flightnumber(flightnumber);
         set_arrivingtime(arrivingtime);
         set_company(company);
@@ -146,7 +146,7 @@ namespace airline {
     }
 
     int flight_t::get_takeofftime() const {
-        return this->get_takeofftime();
+        return this->_takeofftime;
     }
 
     int flight_t::get_arrivingtime() const {
